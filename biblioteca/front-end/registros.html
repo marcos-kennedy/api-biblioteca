@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/registers.css">
+</head>
+
+<body>
+    <div class="registros">
+    
+    </div>
+
+    <script>
+
+        const containerRegisters = document.querySelector('.registros');
+
+        fetch("http://localhost:8080/emprestimos")
+            .then(data => {
+                return data.json();
+            })
+            .then(registers => {
+                registers.forEach(register => {
+                    createElement(register);
+                });
+            })
+            .catch(error => console.log(error));
+
+
+        function createElement(register) {
+            const divRegister = document.createElement('div');
+
+            const nameStudent = document.createElement('h1');
+            const turnoStudent = document.createElement('h2');
+            const classStudent = document.createElement('p');
+
+            const nameBook = document.createElement('h1');
+            const nameAuthor = document.createElement('h2');
+            const numberCopies = document.createElement('p');
+
+            const loanDate = document.createElement('p');
+            const returnDate = document.createElement('p');
+
+            nameStudent.textContent = `Nome do Aluno: ${register.aluno.nome}`;
+            turnoStudent.textContent = `Curso do Aluno: ${register.aluno.turno}`;
+            classStudent.textContent = `Turma: ${register.aluno.turma}`;
+
+            nameBook.textContent = `Nome do Livro: ${register.livro.nomeLivro}`;
+            nameAuthor.textContent = `Autor: ${register.livro.nomeAutor}`;
+            numberCopies.textContent = `Número de Exemplares: ${register.livro.numeroExemplares}`;
+
+            loanDate.textContent = `Data de Empréstimo: ${register.dataEmprestimo}`;
+            returnDate.textContent = `Data de Devolução: ${register.dataDevolucao}`;
+
+            divRegister.classList.add('registro');
+
+            divRegister.appendChild(nameStudent);
+            divRegister.appendChild(turnoStudent);
+            divRegister.appendChild(classStudent);
+            divRegister.appendChild(nameBook);
+            divRegister.appendChild(nameAuthor);
+            divRegister.appendChild(numberCopies);
+            divRegister.appendChild(loanDate);
+            divRegister.appendChild(returnDate);
+
+            containerRegisters.appendChild(divRegister);
+        }
+
+    </script>
+</body>
+
+</html>
