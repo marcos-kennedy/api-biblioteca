@@ -17,16 +17,23 @@ import jakarta.persistence.Table;
 @Table(name = "usuarios")
 public class Usuario implements UserDetails{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String username;
     private String password;
     private UserRole role;
 
-    public Integer getId() {
+    public Usuario(String username, String password, UserRole role){
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+
+    public String getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getUsername() {
@@ -47,6 +54,7 @@ public class Usuario implements UserDetails{
     public void setRole(UserRole role) {
         this.role = role;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UserRole.ADMIN) {

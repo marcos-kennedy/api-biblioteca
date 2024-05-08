@@ -55,13 +55,4 @@ public class ServicoLivros {
         }
     }
 
-    //Olhar com mais atenção... pode ser que dê erro
-    public ResponseEntity<?> alterar(Livro livro) {
-        if (livro.getNumeroExemplares() < 0) {
-            mensagem.setMensagem("Erro! Quantidade inválida.");
-            return new ResponseEntity<>(mensagem, HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(livroRepository.save(livro), HttpStatus.OK);
-        }
-    }
 }
