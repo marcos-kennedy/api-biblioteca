@@ -2,7 +2,9 @@ package com.projetos.biblioteca.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projetos.biblioteca.infra.security.GeradorToken;
 import com.projetos.biblioteca.models.user.AutenticacaoDTO;
+import com.projetos.biblioteca.models.user.LoginResponseDTO;
 import com.projetos.biblioteca.models.user.RegistroUsuarioDTO;
 import com.projetos.biblioteca.models.user.Usuario;
 import com.projetos.biblioteca.repositorys.UsuarioRepository;
@@ -23,15 +25,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AutenticacaoController {
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private GeradorToken tokenService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AutenticacaoDTO dados) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(dados.username(), dados.password());
         var autenticacao = this.authenticationManager.authenticate(usernamePassword);
-        return ResponseEntity.ok().build();
+        var token = tokenService.geradorToken((Usuario) autenticacao.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     
     @PostMapping("/cadastrar")
@@ -45,6 +49,5 @@ public class AutenticacaoController {
             this.usuarioRepository.save(usuario);
             return ResponseEntity.ok().build();
         }
-    }
-    
+    } 
 }

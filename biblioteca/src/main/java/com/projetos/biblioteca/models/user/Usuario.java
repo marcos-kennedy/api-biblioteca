@@ -1,6 +1,7 @@
 package com.projetos.biblioteca.models.user;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -22,14 +23,14 @@ public class Usuario implements UserDetails{
     private String username;
     private String password;
     private UserRole role;
-
+    public Usuario(){
+        
+    }
     public Usuario(String username, String password, UserRole role){
         this.username = username;
         this.password = password;
         this.role = role;
     }
-
-
     public String getId() {
         return id;
     }
@@ -60,7 +61,7 @@ public class Usuario implements UserDetails{
         if(this.role == UserRole.ADMIN) {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
     @Override
