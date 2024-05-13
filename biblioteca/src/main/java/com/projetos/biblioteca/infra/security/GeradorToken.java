@@ -18,13 +18,13 @@ import com.projetos.biblioteca.models.user.Usuario;
 public class GeradorToken {
     @Value("${api.security.token.secret}")
     String secret;
-    public String geradorToken(Usuario usuario){
+    public String gerarToken(Usuario usuario){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("library")
                     .withSubject(usuario.getUsername())
-                    .withExpiresAt(geradorExpiracao())
+                    .withExpiresAt(gerarExpiracao())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
@@ -41,12 +41,12 @@ public class GeradorToken {
             .verify(token)
             .getSubject();
         } catch (JWTVerificationException exception) {
-            return "";
+            return "Erro: " + exception.getMessage();
         }
     }
 
-    private Instant geradorExpiracao() {
-        return LocalDateTime.now().plusHours(2).atZone(ZoneId.of("UTC+3")).toInstant();
+    private Instant gerarExpiracao() {
+        return LocalDateTime.now(ZoneId.of("UTC+3")).plusHours(2).toInstant(ZoneOffset.UTC);
     }
 
 }
