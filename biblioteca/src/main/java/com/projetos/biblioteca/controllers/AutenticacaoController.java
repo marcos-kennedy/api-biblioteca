@@ -28,13 +28,13 @@ public class AutenticacaoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private GeradorToken tokenService;
+    private GeradorToken geradorToken;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AutenticacaoDTO dados) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(dados.username(), dados.password());
         var autenticacao = this.authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.geradorToken((Usuario) autenticacao.getPrincipal());
+        var token = geradorToken.gerarToken((Usuario) autenticacao.getPrincipal());
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     
