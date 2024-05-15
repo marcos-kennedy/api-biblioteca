@@ -31,7 +31,7 @@ public class AutenticacaoController {
     private GeradorToken geradorToken;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody AutenticacaoDTO dados) {
+    public ResponseEntity<?> login(@RequestBody AutenticacaoDTO dados) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(dados.username(), dados.password());
         var autenticacao = this.authenticationManager.authenticate(usernamePassword);
         var token = geradorToken.gerarToken((Usuario) autenticacao.getPrincipal());
@@ -39,7 +39,7 @@ public class AutenticacaoController {
     }
     
     @PostMapping("/cadastrar")
-    public ResponseEntity cadastrar(@RequestBody RegistroUsuarioDTO dados) {
+    public ResponseEntity<?> cadastrar(@RequestBody RegistroUsuarioDTO dados) {
         if (this.usuarioRepository.findByUsername(dados.username()) != null){
             return ResponseEntity.badRequest().build();
         } else {
