@@ -29,12 +29,8 @@ public class ServicoEmprestimo {
         Aluno aluno = registro.getAluno();
         Livro livro = registro.getLivro();
 
-        if (aluno.getNome().isEmpty() || aluno.getTurma().isEmpty() || livro.getNomeLivro().isEmpty() || livro.getNomeAutor().isEmpty()) {
+        if (aluno.getNome().isEmpty() || aluno.getTurma().isEmpty() || livro.getNomeLivro().isEmpty()) {
             mensagem.setMensagem("Erro ao fazer registro. Existem campos vazios!");
-            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
-        } 
-        else if (livro.getNumeroExemplares() <= 0) {
-            mensagem.setMensagem("Erro ao fazer registro. Existem valores inválidos!");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         } 
         else if (registro.getDataEmprestimo().isEmpty() || registro.getDataDevolucao().isEmpty()) {
