@@ -38,9 +38,16 @@ public class ServicoEmprestimo {
            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         } 
         else {
-            alunoRepository.save(aluno);
-            livroRepository.save(livro);
-            return new ResponseEntity<>(registroRepository.save(registro), HttpStatus.CREATED);
+            Livro livroRetornado = livroRepository.findByNomeLivro(livro.getNomeLivro());
+            if(livroRetornado == null){
+                mensagem.setMensagem("Erro ao fazer registro. Livro não encontrado no acervo!");
+                return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+            } else {
+                livroRepository.save(livroRetornado);
+                alunoRepository.save(aluno);
+                registro.setLivro(livroRetornado);
+                return new ResponseEntity<>(registroRepository.save(registro), HttpStatus.CREATED);
+            }
         }
     }
 
