@@ -40,13 +40,22 @@ public class ServicoEmprestimo {
         else {
             Livro livroRetornado = livroRepository.findByNomeLivro(livro.getNomeLivro());
             if(livroRetornado == null){
-                mensagem.setMensagem("Erro ao fazer registro. Livro não encontrado no acervo!");
+                mensagem.setMensagem("Erro: Livro não encontrado no acervo!");
                 return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
             } else {
-                livroRepository.save(livroRetornado);
-                alunoRepository.save(aluno);
-                registro.setLivro(livroRetornado);
-                return new ResponseEntity<>(registroRepository.save(registro), HttpStatus.CREATED);
+                Integer numeroExemplaresAtualizado = livroRetornado.getNumeroExemplares() - 1;
+                if(numeroExemplaresAtualizado >= 0){
+                    livroRetornado.setNumeroExemplares(numeroExemplaresAtualizado);
+                    livroRepository.save(livroRetornado);
+                    alunoRepository.save(aluno);
+                    registro.setLivro(livroRetornado);
+                    registroRepository.save(registro);
+                    mensagem.setMensagem("Registro efetuado com sucesso!");
+                    return new ResponseEntity<>(mensagem, HttpStatus.CREATED);
+                } else {
+                    mensagem.setMensagem("Erro: Todos os exemplares foram emprestados!");
+                    return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+                }
             }
         }
     }
