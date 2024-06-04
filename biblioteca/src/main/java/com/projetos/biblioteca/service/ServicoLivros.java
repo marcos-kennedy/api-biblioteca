@@ -34,18 +34,18 @@ public class ServicoLivros {
         return new ResponseEntity<>(livroRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> listar(String termo){
-        if(livroRepository.findByNomeLivroContaining(termo).isEmpty()){
+    public ResponseEntity<?> listar(String nomeLivro){
+        if(livroRepository.findByNomeLivro(nomeLivro) == null){
             mensagem.setMensagem("Erro! Livro não encontrado.");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(livroRepository.findByNomeLivroContaining(termo), HttpStatus.OK);
+        return new ResponseEntity<>(livroRepository.findByNomeLivro(nomeLivro), HttpStatus.OK);
     }
 
     public ResponseEntity<?> excluir(String nomeLivro){
         Livro livro = livroRepository.findByNomeLivro(nomeLivro);
         if (livro == null) {
-            mensagem.setMensagem("Erro! Livro não existe");
+            mensagem.setMensagem("Livro não existe no acervo!");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         } else {
             registroRepository.deleteById(livro.getId());
