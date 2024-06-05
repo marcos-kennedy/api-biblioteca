@@ -25,7 +25,10 @@ public class LivroController {
     public ResponseEntity<?> cadastrarLivros(@RequestBody Livro livro) { 
         return servicoLivros.cadastrar(livro);
     }
-    
+    @PostMapping("/{nomeLivro}")
+    public ResponseEntity<?> devolverLivro(@PathVariable String nomeLivro) {
+        return servicoLivros.devolver(nomeLivro);
+    }
     @GetMapping
     public ResponseEntity<?> listarLivros() {
         return servicoLivros.listar();
