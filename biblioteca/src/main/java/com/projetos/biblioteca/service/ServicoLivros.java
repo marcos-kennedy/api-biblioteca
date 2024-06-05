@@ -29,7 +29,19 @@ public class ServicoLivros {
             return new ResponseEntity<>(livroRepository.save(livro), HttpStatus.OK);
         }
     }
-
+    public ResponseEntity<?> devolver(String nomeLivro){
+        Livro livroRetornado = livroRepository.findByNomeLivro(nomeLivro);
+        if(livroRetornado == null){
+            mensagem.setMensagem("Erro! Livro não encontrado.");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+        } else {
+            Integer numeroExemplaresAtualizado = livroRetornado.getNumeroExemplares() + 1;
+            livroRetornado.setNumeroExemplares(numeroExemplaresAtualizado);
+            livroRepository.save(livroRetornado);
+            mensagem.setMensagem("Livro devolvido com sucesso!");
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
+        }
+    }
     public ResponseEntity<?> listar(){
         return new ResponseEntity<>(livroRepository.findAll(), HttpStatus.OK);
     }
