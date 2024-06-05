@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.projetos.biblioteca.models.Registro;
 
 public interface RegistroRepository extends JpaRepository<Registro, Integer>{
-    List<Registro> findAll();
+    List<Registro> findAll(); 
     Registro findByAlunoNome(String nome);
     List<Registro> findByAlunoNomeContaining(String termo);
 
