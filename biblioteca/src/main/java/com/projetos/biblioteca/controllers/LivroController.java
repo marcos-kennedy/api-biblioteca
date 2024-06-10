@@ -29,6 +29,10 @@ public class LivroController {
     public ResponseEntity<?> devolverLivro(@PathVariable Integer idRegistro) {
         return servicoLivros.devolver(idRegistro);
     }
+    @PostMapping("/adicionar/{idLivro}")
+    public ResponseEntity<?> adicionarQuantidadeLivro(@PathVariable Integer idLivro) {
+        return servicoLivros.adicionar(idLivro);
+    }
     @GetMapping
     public ResponseEntity<?> listarLivros() {
         return servicoLivros.listar();
