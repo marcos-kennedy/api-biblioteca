@@ -63,6 +63,20 @@ public class ServicoLivros {
             return new ResponseEntity<>(mensagem, HttpStatus.OK);
         }
     }
+    public ResponseEntity<?> adicionar(Integer idLivro){
+        Optional<Livro> livroOptional = livroRepository.findById(idLivro);
+        if (livroOptional.isPresent()) {
+            Livro livroRetornado = livroOptional.get();
+            Integer numeroExemplaresAtualizado = livroRetornado.getNumeroExemplares() + 1;
+            livroRetornado.setNumeroExemplares(numeroExemplaresAtualizado);
+            livroRepository.save(livroRetornado);
+            mensagem.setMensagem("Quantidade de exemplares atualizada!");
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
+        } else {
+            mensagem.setMensagem("Erro! Livro não encontrado.");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+        }
+    }
     public ResponseEntity<?> listar(){
         return new ResponseEntity<>(livroRepository.findAll(), HttpStatus.OK);
     }
