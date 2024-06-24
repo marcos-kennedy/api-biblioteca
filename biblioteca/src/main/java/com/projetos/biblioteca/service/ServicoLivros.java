@@ -82,11 +82,13 @@ public class ServicoLivros {
     }
 
     public ResponseEntity<?> listar(String nomeLivro){
-        if(livroRepository.findByNomeLivro(nomeLivro) == null){
+        Livro livroRetornado = livroRepository.findByNomeLivro(nomeLivro);
+        if (livroRetornado != null) {
+            return new ResponseEntity<>(livroRetornado, HttpStatus.OK);
+        } else {
             mensagem.setMensagem("Erro! Livro não encontrado.");
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(livroRepository.findByNomeLivro(nomeLivro), HttpStatus.OK);
     }
 
     public ResponseEntity<?> excluir(String nomeLivro){

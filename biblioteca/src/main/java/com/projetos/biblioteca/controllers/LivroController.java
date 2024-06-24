@@ -38,9 +38,9 @@ public class LivroController {
         return servicoLivros.listar();
     }
 
-    @GetMapping("/{termo}")
-    public ResponseEntity<?> listarLivros(@PathVariable String termo) {
-        return servicoLivros.listar(termo);
+    @GetMapping("/{nomeLivro}")
+    public ResponseEntity<?> listarLivros(@PathVariable String nomeLivro) {
+        return servicoLivros.listar(nomeLivro);
     }
 
     @DeleteMapping("/{nomeLivro}")
