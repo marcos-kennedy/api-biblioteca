@@ -1,6 +1,7 @@
 package com.projetos.biblioteca.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,12 +83,17 @@ public class ServicoLivros {
     }
 
     public ResponseEntity<?> listar(String nomeLivro){
-        Livro livroRetornado = livroRepository.findByNomeLivro(nomeLivro);
-        if (livroRetornado != null) {
-            return new ResponseEntity<>(livroRetornado, HttpStatus.OK);
+        if(nomeLivro.isEmpty()){
+            mensagem.setMensagem("Erro! nome de livro inadequado.");
+            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);   
         } else {
-            mensagem.setMensagem("Erro! Livro não encontrado.");
-            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+            List<Livro> livroRetornado = livroRepository.findByNomeLivroContaining(nomeLivro);
+            if (livroRetornado != null) {
+                return new ResponseEntity<>(livroRetornado, HttpStatus.OK);
+            } else {
+                mensagem.setMensagem("Erro! Livro não encontrado.");
+                return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
+            }
         }
     }
 
