@@ -2,7 +2,6 @@ package com.projetos.biblioteca.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +33,4 @@ public class RegistroController {
     public ResponseEntity<?> listarEmprestimo(@PathVariable String nomeAluno){
         return servicoEmprestimo.listar(nomeAluno);
     }
-
-    @DeleteMapping("/{qtdRegistros}")
-    public ResponseEntity<?> deletarEmprestimos(@PathVariable int qtdRegistros){
-        return servicoEmprestimo.deletar(qtdRegistros);
-    }
-
 }

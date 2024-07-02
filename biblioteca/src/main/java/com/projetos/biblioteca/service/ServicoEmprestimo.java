@@ -1,6 +1,5 @@
 package com.projetos.biblioteca.service;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,22 +71,6 @@ public class ServicoEmprestimo {
             return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(registroRepository.findByAlunoNomeContaining(nomeAluno), HttpStatus.OK);
-        }
-    }
-
-    // serviço para deletar empréstimos por qtd informada
-    public ResponseEntity<?> deletar(int qtdRegistros) {
-        if (qtdRegistros <= 0) {
-            mensagem.setMensagem("Erro! valor inválido.");
-            return new ResponseEntity<>(mensagem, HttpStatus.BAD_REQUEST);
-        } else {
-            List<Integer> idsToDelete = registroRepository.idsToDelete(qtdRegistros);
-            for (Integer id : idsToDelete) {
-                registroRepository.deleteById(id);
-                alunoRepository.deleteById(id);
-            }
-            mensagem.setMensagem("Registros excluidos com sucesso!");
-            return new ResponseEntity<>(mensagem, HttpStatus.OK);
         }
     }
 }
